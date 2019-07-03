@@ -10,6 +10,4 @@ public class UserProfile {
     public String getLogin() {
         return login;
     }
-
-
 }
