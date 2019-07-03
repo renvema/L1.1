@@ -12,12 +12,13 @@ import java.util.Map;
 
 /**
  * @author v.chibrikov
- *         <p>
- *         Пример кода для курса на https://stepic.org/
- *         <p>
- *         Описание курса и лицензия: https://github.com/vitaly-chibrikov/stepic_java_webserver
+ * <p>
+ * Пример кода для курса на https://stepic.org/
+ * <p>
+ * Описание курса и лицензия: https://github.com/vitaly-chibrikov/stepic_java_webserver
  */
 public class AllRequestsServlet extends HttpServlet {
+    private static final String html = "text/html;charset=utf-8";
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +28,7 @@ public class AllRequestsServlet extends HttpServlet {
 
         response.getWriter().println(request.getParameter("key"));
 
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType(html);
         response.setStatus(HttpServletResponse.SC_OK);
 
     }
@@ -38,7 +39,7 @@ public class AllRequestsServlet extends HttpServlet {
 
         String message = request.getParameter("message");
 
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType(html);
 
         if (message == null || message.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

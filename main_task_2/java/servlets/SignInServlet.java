@@ -18,46 +18,15 @@ public class SignInServlet extends HttpServlet {
         this.accountService = accountService;
     }
 
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-        String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
-        if (profile == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } else {
-            Gson gson = new Gson();
-            String json = gson.toJson(profile);
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println(json);
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-    }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String login = request.getParameter("login");
 
-        if (Objects.nonNull(accountService.getUserByLogin(login))) {
+        if (Objects.isNull(user)) {
+            response.getWriter().println("Unauthorized");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
             response.getWriter().print("Authorized: " + login);
             response.getWriter().print(HttpServletResponse.SC_OK);
-        } else {
-            response.getWriter().print("Unauthorized");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-    }
-
-    public void doDelete(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
-        if (profile == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } else {
-            accountService.deleteSession(sessionId);
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println("Goodbye!");
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-
     }
 }
